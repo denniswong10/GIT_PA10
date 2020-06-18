@@ -7,13 +7,18 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager thisManager = null;  
     [SerializeField] private Text Txt_Score = null;
+    [SerializeField] private Text Txt_HighScore = null;
     [SerializeField] private Text Txt_Message = null;
     private int Score = 0;
+    private int highscore = 0;
 
     void Start()
     {
         thisManager = this;
         Time.timeScale = 0;
+
+        highscore = PlayerPrefs.GetInt("Player_highScore", 0);
+        Txt_HighScore.text = "HIGH SCORE : " + highscore;
     }
 
     void Update()
@@ -41,5 +46,10 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 0;
         Txt_Message.text = "GAMEOVER! \nPRESS ENTER TO RESTART GAME.";
         Txt_Message.color = Color.red;
+
+        if (Score > highscore)
+        {
+            PlayerPrefs.SetInt("Player_highScore", Score);
+        }
     }
 }
